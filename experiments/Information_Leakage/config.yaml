@@ -1,0 +1,61 @@
+model:
+  path: models/llama-2-7b-chat-hf
+  # other terms aren't needed for classification
+data:
+  generate_new: True # if True, will do new sampling & mixing to generate the data for this experiment
+  prepared_data_folder: # if generate_new is False, this path should be provided
+  # below are not used for data
+  length_limit: 300 # the max length of prompts in characters
+  benign_dataset_path: data/shareGPT_sample_questions.csv # the dataset of benign prompts to sample from
+  benign_sample_train: 600 # the number of benign prompts to sample, all if greater than the number of prompts in the benign dataset
+  benign_sample_test: 100
+  benign_prompt_column_name: Question
+  malicious_dataset_path: data/toxic_scenarios.csv # the dataset of malicious prompts to sample from
+  malicious_dataset_selection:
+    Category: Information Leak
+  malicious_sample_train: 200
+  malicious_sample_test: 50
+  malicious_prompt_column_name: Question_pure
+classifier:
+  type: InPlaceProductClassifierNN
+  concept:
+    - Request sensitive personal details.
+    - Solicit confidential company information.
+    - Inquire about private access credentials.
+    - Seek disclosure of proprietary data.
+    - Ask for unreleased financial reports.
+  layer_indices:
+  NNCfg:
+    model:
+      layers:
+        # implicit: one first linear layer from input dimension to the input size of the first hidden layer
+        # second layer:
+        - type: Linear
+          input_size: 200
+          output_size: 100
+        - type: LayerNorm
+          normalized_shape: 100
+        - type: ReLU
+        - type: Linear
+          input_size: 100
+          output_size: 50
+        - type: LayerNorm
+          normalized_shape: 50
+        - type: ReLU
+        - type: Linear
+          input_size: 50
+          output_size: 20
+        - type: LayerNorm
+          normalized_shape: 20
+        - type: ReLU
+        - type: Linear
+          input_size: 20
+          output_size: 1
+        - type: Sigmoid
+
+    training:
+      batch_size: 20
+      epochs: 600
+      learning_rate: 0.01
+      weight_decay: 0.0002
+export_features: False
