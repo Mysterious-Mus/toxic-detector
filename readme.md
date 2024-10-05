@@ -4,6 +4,19 @@
 
 Large language models (LLMs) like ChatGPT and Gemini have significantly advanced natural language processing, enabling various applications such as chatbots and automated content generation. However, these models can be exploited by malicious individuals who craft toxic prompts to elicit harmful or unethical responses. These individuals often employ jailbreaking techniques to bypass safety mechanisms, highlighting the need for robust toxic prompt detection methods. Existing detection techniques, both blackbox and whitebox, face challenges related to the diversity of toxic prompts, scalability, and computational efficiency. In response, we propose ToxicDetector, a lightweight greybox method designed to efficiently detect toxic prompts in LLMs. ToxicDetector leverages LLMs to create toxic concept prompts, uses embedding vectors to form feature vectors, and employs a Multi-Layer Perceptron (MLP) classifier for prompt classification. Our evaluation, conducted on various versions of the LLama models (LLama-3, LLama-2, and LLama-1), demonstrates that ToxicDetector achieves high accuracy (96.07%) and low false positive rates (3.29%), outperforming state-of-the-art methods. Additionally, ToxicDetector's processing time of 0.084 seconds per prompt makes it highly suitable for real-time applications.  ToxicDetector achieves high accuracy, efficiency, and scalability, making it a practical method for toxic prompt detection in LLMs.
 
+## Citation
+
+You can cite us using the following BibTeX entry:
+
+```bibtex
+@inproceedings{liu2024efficient,
+  title={Efficient Detection of Toxic Prompts in Large Language Models},
+  author={Liu, Yi and Yu, Junzhe and Sun, Huijia and Shi, Ling and Deng, Gelei and Chen, Yuqi and Liu, Yang},
+  booktitle={Proceedings of the 39th IEEE/ACM International Conference on Automated Software Engineering (ASE 2024)},
+  year={2024}
+}
+```
+
 ## Experiments
 
 ### Environment Setup
